@@ -2,16 +2,21 @@ import {
   CREATE_BLOG_POST_REQUEST, CREATE_BLOG_POST_SUCCESS, CREATE_BLOG_POST_FAILURE,
   RESET_BLOG_POST,
   LOAD_BLOG_POSTS_REQUEST, LOAD_BLOG_POSTS_SUCCESS, LOAD_BLOG_POSTS_FAILURE,
+  LOAD_BLOG_POST_REQUEST, LOAD_BLOG_POST_SUCCESS, LOAD_BLOG_POST_FAILURE,
 } from '../_sagas/types'
 
 const initialState = {
   createBlogPostLoading: false,
   createBlogPostDone: false,
   createBlogPostError: null,
-  laodBlogPostsLoading: false,
-  laodBlogPostsDone: false,
-  laodBlogPostsError: null,
+  loadBlogPostsLoading: false,
+  loadBlogPostsDone: false,
+  loadBlogPostsError: null,
+  loadBlogPostLoading: false,
+  loadBlogPostDone: false,
+  loadBlogPostError: null,
 
+  currentBlogPost: null,
   blogPosts: [],
 }
 
@@ -55,13 +60,33 @@ const blog = (state = initialState, action) => {
         ...state,
         loadBlogPostsLoading: false,
         loadBlogPostsDone: true,
-        blogPosts: [...state.blogPosts, ...action.payload.blogs], 
+        blogPosts: [...state.blogPosts, ...action.payload.blogs],
       }
     case LOAD_BLOG_POSTS_FAILURE:
       return {
         ...state,
         loadBlogPostsLoading: false,
         loadBlogPostsError: action.error
+      }
+    case LOAD_BLOG_POST_REQUEST:
+      return {
+        ...state,
+        loadBlogPostLoading: true,
+        loadBlogPostDone: false,
+        loadBlogPostError: null,
+      }
+    case LOAD_BLOG_POST_SUCCESS:
+      return {
+        ...state,
+        loadBlogPostLoading: false,
+        loadBlogPostDone: true,
+        currentBlogPost: action.payload.blog,
+      }
+    case LOAD_BLOG_POST_FAILURE:
+      return {
+        ...state,
+        loadBlogPostLoading: false,
+        loadBlogPostError: action.error
       }
     default:
       return {
