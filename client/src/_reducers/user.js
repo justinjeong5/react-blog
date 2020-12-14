@@ -1,4 +1,4 @@
-import {
+gimport {
   LOGIN_USER_REQUEST, LOGIN_USER_SUCCESS, LOGIN_USER_FAILURE,
   REGISTER_USER_REQUEST, REGISTER_USER_SUCCESS, REGISTER_USER_FAILURE,
   LOGOUT_USER_REQUEST, LOGOUT_USER_SUCCESS, LOGOUT_USER_FAILURE,
@@ -19,7 +19,6 @@ const initialState = {
   authenticateUserDone: false,
   authenticateUserError: null,
 
-  userAuthentication: null,
   currentUser: null,
 }
 
@@ -81,7 +80,6 @@ const user = (state = initialState, action) => {
         logoutUserLoading: false,
         logoutUserDone: true,
         currentUser: null,
-        userAuthentication: null,
         loginUserDone: false,
       }
     case LOGOUT_USER_FAILURE:
@@ -101,7 +99,7 @@ const user = (state = initialState, action) => {
         ...state,
         authenticateUserLoading: false,
         authenticateUserDone: true,
-        userAuthentication: action.payload,
+        currentUser: action.payload,
       }
     case AUTHENTICATE_USER_FAILURE:
       return {
