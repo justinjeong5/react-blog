@@ -20,13 +20,39 @@ function BlogPage() {
     })
   }, [])
 
+  const renderCards = blogPosts.map((blog) => {
+    return (
+      <Col key={uuidv4()} lg={8} md={12} xs={24}>
+        <Card
+          hoverable
+          style={{ width: 370, marginTop: 16 }}
+          actions={[
+            <SettingOutlined />,
+            <EditOutlined />,
+            <Link to={`/blog/post/${blog._id}`}><EllipsisOutlined /></Link>
+          ]}
+        >
+          <Card.Meta
+            avatar={<Avatar src={blog.writer.image} />}
+            title={blog.writer.name}
+            description={blog.content.slice(0, 20)}
+          />
+          <div style={{ height: 150, overflowY: 'scroll', marginTop: 10 }}>
+            <div dangerouslySetInnerHTML={{ __html: blog.content }} />
+          </div>
+        </Card>
+      </Col>
+    )
+  })
+
+
   return (
     <div style={{ width: '85%', margin: '3rem auto' }}>
       <Title level={2} >블로그 목록</Title>
       {loadBlogPostsLoading && <LoadingPage />}
       {!loadBlogPostsDone && blogPosts &&
         <Row gutter={[32, 16]}>
-          {/* {renderCards} */}
+          {renderCards}
         </Row>
       }
     </div>
