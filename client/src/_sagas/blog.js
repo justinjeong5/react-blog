@@ -29,7 +29,6 @@ function* watchCreatePost() {
   yield takeLatest(CREATE_BLOG_POST_REQUEST, createPost)
 }
 
-
 export default function* userSaga() {
   yield all([
     fork(watchCreatePost),
