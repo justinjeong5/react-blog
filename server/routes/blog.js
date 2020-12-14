@@ -30,7 +30,7 @@ const upload = multer({ storage: storage }).single('file');
 
 
 router.post('/createPost', (req, res) => {
-  const blog = new Blog({ content: req.body.content, writer: req.body.userID });
+  const blog = new Blog({ content: req.body.content, writer: req.body.userId });
 
   blog.save((error, postInfo) => {
     if (error) {
@@ -49,6 +49,18 @@ router.post('/uploadfiles', (req, res) => {
     }
     return res.status(200).json({ success: true, url: res.req.file.path, fileName: res.req.file.filename });
   })
+})
+
+router.get('/blogs', (req, res) => {
+  Blog.find()
+    .populate('writer')
+    .exec((error, blogs) => {
+      if (error) {
+        console.error(error);
+        return res.status(401).json({ code: 'DatabaseError', message: '블로그 글을 불러오는 과정에서 문제가 발생했습니다.', error });
+      }
+      return res.status(200).json({ success: true, blogs })
+    })
 })
 
 module.exports = router
