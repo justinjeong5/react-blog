@@ -1,27 +1,38 @@
 import React, { useEffect, useState } from 'react'
-import { Typography, Form, Button } from 'antd'
+import { Typography, Form, Button, message } from 'antd'
 import { useDispatch, useSelector } from 'react-redux';
-import { CREATE_BLOG_POST_REQUEST } from '../../../../_sagas/types'
+import { withRouter } from 'react-router-dom';
+import { CREATE_BLOG_POST_REQUEST, RESET_BLOG_POST } from '../../../../_sagas/types'
 import QuillEditor from '../../../editor/QuillEditor'
 const { Title } = Typography;
 
-function CreatePage() {
+function CreatePage(props) {
 
   const dispatch = useDispatch();
   const [content, setContent] = useState('')
+  const [loading, setLoading] = useState(false);
   const [files, setFiles] = useState([]);
 
   const { currentUser } = useSelector(state => state.user)
-  const { blogPostData } = useSelector(state => state.blog)
+  const { createBlogPostLoading, createBlogPostDone } = useSelector(state => state.blog)
+
+  let timer;
 
   useEffect(() => {
-    if (blogPostData) {
-      console.log(blogPostData, 'blogPostData')
+    if (createBlogPostDone) {
+      setLoading(true)
+      message.success('게시글이 등록되었습니다.')
+      timer = setTimeout(() => {
+        dispatch({
+          type: RESET_BLOG_POST
+        })
+        props.history.push('/blog')
+      }, 2000)
     }
-  }, [blogPostData])
+
+  }, [createBlogPostDone])
 
   const onSubmit = () => {
-    console.log(content, 'content')
     const variables = {
       content: content,
       userId: currentUser._id,
@@ -59,6 +70,8 @@ function CreatePage() {
               size='large'
               htmlType='submit'
               onSubmit={onSubmit}
+              disabled={loading}
+              loading={createBlogPostLoading}
             >
               글쓰기
             </Button>
@@ -69,4 +82,4 @@ function CreatePage() {
   )
 }
 
-export default CreatePage
+export default withRouter(CreatePage);

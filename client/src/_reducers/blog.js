@@ -1,5 +1,6 @@
 import {
   CREATE_BLOG_POST_REQUEST, CREATE_BLOG_POST_SUCCESS, CREATE_BLOG_POST_FAILURE,
+  RESET_BLOG_POST,
 } from '../_sagas/types'
 
 const initialState = {
@@ -32,7 +33,14 @@ const blog = (state = initialState, action) => {
         createBlogPostLoading: false,
         createBlogPostError: action.error
       }
-
+    case RESET_BLOG_POST:
+      return {
+        ...state,
+        createBlogPostLoading: true,
+        createBlogPostDone: false,
+        createBlogPostError: null,
+        blogPostData: null, 
+      }
     default:
       return {
         ...state
