@@ -33,6 +33,7 @@ router.get('/auth', auth, (req, res) => {
 router.post('/register', (req, res) => {
   User.findOne({ email: req.body.email }, (error, user) => {
     if (error) {
+      console.error(error);
       return res.status(401).json({ code: 'DatabaseError', message: '기존 유저를 찾는 과정에서 문제가 발생했습니다.', error });
     }
     if (user) {
@@ -41,6 +42,7 @@ router.post('/register', (req, res) => {
       const user = new User(req.body);
       user.save((error, doc) => {
         if (error) {
+          console.error(error);
           return res.status(401).json({ code: 'DatabaseError', message: '유저 정보를 저장하는 과정에서 문제가 발생했습니다.', error });
         }
         return res.status(200).json({ success: true })
@@ -56,10 +58,12 @@ router.post('/login', (req, res) => {
       return res.status(401).json({ code: 'NoSuchUser', message: '존재하지 않는 사용자입니다.' });
     }
     if (error) {
+      console.error(error);
       return res.status(401).json({ code: 'DatabaseError', message: '기존 유저를 찾는 과정에서 문제가 발생했습니다.', error });
     }
     user.comparePassword(req.body.password, (error, isMatch) => {
       if (error) {
+        console.error(error);
         return res.status(401).json({ code: 'DatabaseError', message: '비밀번호를 검증하는 과정에서 문제가 발생했습니다.', error });
       }
       if (!isMatch) {
@@ -67,6 +71,8 @@ router.post('/login', (req, res) => {
       }
       user.generateToken((error, user) => {
         if (error) {
+          console.error(error);
+          console.error(error);
           return res.status(401).json({ code: 'DatabaseError', message: '토큰을 생성하는 과정에서 문제가 발생했습니다.', error });
         }
         // cookie에 저장
@@ -83,9 +89,11 @@ router.get('/logout', auth, (req, res) => {
     { token: '' },
     (error, user) => {
       if (error) {
+        console.error(error);
         return res.status(401).json({ code: 'DatabaseError', message: '데이터베이스 에러가 발생했습니다.', error });
       }
       if (!user) {
+        console.error(error);
         return res.status(401).json({ code: 'NoSuchUser', message: '존재하지 않는 사용자입니다.' });
       }
       res.cookie('x_auth', '').status(200)
