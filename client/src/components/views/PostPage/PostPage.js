@@ -22,7 +22,7 @@ function PostPage(props) {
   return (
     <>
       {loadBlogPostLoading && <LoadingPage />}
-      {loadBlogPostDone && currentBlogPost && <>
+      {loadBlogPostDone && <>
         <div style={{ width: '80%', backgroundColor: '#f5f5f5', padding: 24, margin: '3rem auto' }}>
           <PageHeader
             ghost={false}

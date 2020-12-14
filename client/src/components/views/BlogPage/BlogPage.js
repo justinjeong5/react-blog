@@ -50,7 +50,7 @@ function BlogPage() {
     <div style={{ width: '85%', margin: '3rem auto' }}>
       <Title level={2} >블로그 목록</Title>
       {loadBlogPostsLoading && <LoadingPage />}
-      {!loadBlogPostsDone && blogPosts &&
+      {loadBlogPostsDone &&
         <Row gutter={[32, 16]}>
           {renderCards}
         </Row>
