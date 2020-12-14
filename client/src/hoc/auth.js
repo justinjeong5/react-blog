@@ -21,6 +21,7 @@ export default function (SpecificComponent, option, adminRoute = null) {
 
     useEffect(() => {
       if (currentUser) {
+        if (option === null) return;
         if (currentUser.isAuth) {
           // 로그인이 된 사용자
           if (!option) {
