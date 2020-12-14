@@ -63,4 +63,16 @@ router.get('/blogs', (req, res) => {
     })
 })
 
+router.get('/blog/:postId', (req, res) => {
+  Blog.findOne({ '_id': req.params.postId })
+    .populate('writer')
+    .exec((error, blog) => {
+      if (error) {
+        console.error(error);
+        return res.status(401).json({ code: 'DatabaseError', message: '블로그 글을 불러오는 과정에서 문제가 발생했습니다.', error });
+      }
+      return res.status(200).json({ success: true, blog })
+    })
+})
+
 module.exports = router
