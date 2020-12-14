@@ -13,6 +13,9 @@ import Auth from './hoc/auth'
 import LoadingPage from './components/views/LoadingPage/LoadingPage';
 import NavBar from './components/views/NavBar/NavBar'
 import Footer from './components/views/Footer/Footer'
+import CreatePage from './components/views/BlogPage/Sections/CreatePage'
+import BlogPage from './components/views/BlogPage/BlogPage'
+import PostPage from './components/views/PostPage/PostPage'
 
 function App() {
   return (
@@ -24,6 +27,9 @@ function App() {
             <Route exact path="/" component={Auth(LandingPage, null)} />
             <Route exact path="/register" component={Auth(RegisterPage, false)} />
             <Route exact path="/login" component={Auth(LoginPage, false)} />
+            <Route exact path="/blog" component={Auth(BlogPage, null)} />
+            <Route exact path="/blog/create" component={Auth(CreatePage, true)} />
+            <Route exact path="/blog/post/:postId" component={Auth(PostPage, null)} />
           </Switch>
         </div>
         <Footer />
