@@ -27,7 +27,7 @@ function PostPage(props) {
           <PageHeader
             ghost={false}
             onBack={() => window.history.back()}
-            title={`${currentBlogPost.writer.name}님의 글`}
+            title={currentBlogPost.title}
           >
             <Descriptions size="small" column={3}>
               <Descriptions.Item label="작성자">{currentBlogPost.writer.name}</Descriptions.Item>

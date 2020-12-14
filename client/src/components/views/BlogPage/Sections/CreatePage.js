@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { Typography, Form, Button, message } from 'antd'
+import { Typography, Form, Button, message, Input } from 'antd'
 import { useDispatch, useSelector } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import { CREATE_BLOG_POST_REQUEST, RESET_BLOG_POST } from '../../../../_sagas/types'
@@ -10,6 +10,7 @@ function CreatePage(props) {
 
   const dispatch = useDispatch();
   const [content, setContent] = useState('')
+  const [title, setTitle] = useState('')
   const [loading, setLoading] = useState(false);
   const [files, setFiles] = useState([]);
 
@@ -33,9 +34,12 @@ function CreatePage(props) {
   }, [createBlogPostDone])
 
   const onSubmit = () => {
+    if (content === '' || title === '') return;
+
     const variables = {
       content: content,
-      userId: currentUser._id,
+      title: title,
+      writer: currentUser._id,
     }
     dispatch({
       type: CREATE_BLOG_POST_REQUEST,
@@ -53,18 +57,25 @@ function CreatePage(props) {
     setFiles(files)
   }
 
+  const onChangeTitle = (event) => {
+    setTitle(event.target.value);
+  }
+
   return (
     <>
       <div style={{ maxWidth: 700, margin: "2rem auto" }}>
         <div style={{ textAlign: 'center' }}>
           <Title level={2} >블로그 글 작성</Title>
         </div>
-        <QuillEditor
-          placeholder={'블로그 글을 작성해주세요.'}
-          onEditorChange={onEditorChange}
-          onFilesChange={onFilesChange}
-        />
         <Form onFinish={onSubmit}>
+          <Input value={title} onChange={onChangeTitle} placeholder='제목을 입력하세요' />
+
+          <QuillEditor
+            placeholder={'블로그 글을 작성해주세요.'}
+            onEditorChange={onEditorChange}
+            onFilesChange={onFilesChange}
+          />
+
           <div style={{ textAlign: 'center', margin: '2rem' }}>
             <Button
               size='large'

@@ -35,7 +35,7 @@ function BlogPage() {
           <Card.Meta
             avatar={<Avatar src={blog.writer.image} />}
             title={blog.writer.name}
-            description={blog.content.slice(0, 20)}
+            description={blog.title.slice(0, 20)}
           />
           <div style={{ height: 150, overflowY: 'scroll', marginTop: 10 }}>
             <div dangerouslySetInnerHTML={{ __html: blog.content }} />

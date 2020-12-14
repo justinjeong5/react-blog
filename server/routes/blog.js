@@ -30,7 +30,7 @@ const upload = multer({ storage: storage }).single('file');
 
 
 router.post('/createPost', (req, res) => {
-  const blog = new Blog({ content: req.body.content, writer: req.body.userId });
+  const blog = new Blog(req.body);
 
   blog.save((error, postInfo) => {
     if (error) {
