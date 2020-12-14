@@ -43,6 +43,7 @@ const user = (state = initialState, action) => {
     case LOGIN_USER_FAILURE:
       return {
         ...state,
+        loginUserLoading: false,
         loginUserError: action.error
       }
     case REGISTER_USER_REQUEST:
@@ -54,6 +55,7 @@ const user = (state = initialState, action) => {
         currentUser: null,
         loginUserDone: false,
         logoutUserDone: false,
+        loginUserError: null,
       }
     case REGISTER_USER_SUCCESS:
       return {
